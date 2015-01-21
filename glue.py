@@ -94,6 +94,10 @@ for setting in config:
 	elif setting[0] == 'dinnerStartTime':
 		config_dinnerStartTime=int(setting[1].replace(' ',''))
 		print (str(config_dinnerStartTime)+';')
+	# LATE MEAL 
+	elif setting[0] == 'lateMealStartTime':
+		config_lateMealStartTime=int(setting[1].replace(' ',''))
+		print (str(config_dinnerStartTime)+';')
 	else:
 		print 'Unknown config option: ',setting
 # load the file into a string depending on if its online or offline
@@ -213,7 +217,8 @@ for line in data:
 							# print a item
 							outputFileText+=('\t<div class="menu_item">\n\t\t'+item+'\n\t</div>\n')
 							print (' - '+item)
-		elif (currentTime >= config_dinnerStartTime) and (currentTime <= 24):
+		#elif (currentTime >= config_dinnerStartTime) and (currentTime <= 24):
+		elif (currentTime >= config_dinnerStartTime) and (currentTime < config_lateMealStartTime):
 			if splitline[1] == 'DINNER':
 				#print 'Its DINNER time'
 				#outputFileTextTop += "<h1>TODAY'S "+'DINNER'+" MENU:</h1>"+'\n'
@@ -235,7 +240,30 @@ for line in data:
 						else:
 							# print a item
 							outputFileText+=('\t<div class="menu_item">\n\t\t'+item+'\n\t</div>\n')
+		elif (currentTime >= config_lateMealStartTime) and (currentTime <= 24):
+			if splitline[1] == 'LATEMEAL':
+				#print 'Its DINNER time'
+				#outputFileTextTop += "<h1>TODAY'S "+'DINNER'+" MENU:</h1>"+'\n'
+				outputFileTextTop += "<h1>TODAY'S MENU:</h1>"+'\n'
+				for item in splitline[2:]:
+					if len(item) > 0:
+						# if item is all upercase its diffrent
+						if item == '#':
+							outputFileText+=(('\t</br>'*2)+'\n')
+							# print two blank lines
+							print
+							print
+						elif item[0] == '#':
+							outputFileText+=('\t<h1 class="header">'+item[1:]+'</h1>\n')
+							# print a header
+							print '#'*20
+							print item[1:]
+							print '#'*20
+						else:
+							# print a item
+							outputFileText+=('\t<div class="menu_item">\n\t\t'+item+'\n\t</div>\n')
 							print (' - '+item)
+					print (' - '+item)
 # close the webpage body out
 outputFileText = outputFileTextTop+outputFileText
 outputFileText += '</body>\n</html>'
