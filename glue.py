@@ -58,6 +58,19 @@ def downloadFile(fileAddress):
 	downloadedFileObject.close()
 	print "Finished Loading :",fileAddress
 	return fileText
+def phaseLine(item):
+	outputFileText=''
+	if len(item) > 0:
+		if item == '#':
+			#print two blank lines
+			outputFileText+=(('\t</br>'*2)+'\n')
+		elif item[0] == '#':
+			# print a header
+			outputFileText+=('\t<h1 class="header">'+item[1:]+'</h1>\n')
+		else:
+			# print a item
+			outputFileText+=('\t<div class="menu_item">\n\t\t'+item+'\n\t</div>\n')
+	return outputFileText
 ########################################################################
 import datetime, time
 # load the config file into a string
@@ -103,7 +116,7 @@ for setting in config:
 # load the file into a string depending on if its online or offline
 if 'http' in config_location:
 	data = downloadFile(config_location)
-	print data
+	#print data
 else:
 	data = loadFile(config_location)
 data = data.replace('\r','\n')
@@ -118,8 +131,8 @@ if tempMonthDate[0] == '0':
 	# remove leading zeros from month in date field
 	tempMonthDate=tempMonthDate[1:]
 todayDate = tempMonthDate+'/'+tempDayDate+'/'+todayDate[0]
-print todayDate,'= todays date'#DEBUG
-#todayDate = todayDate[1]+'/'+todayDate[2]+'/'+(todayDate[0])[2:]
+#print todayDate,'= todays date'#DEBUG
+#todayDate = todayDate[1]+'/'+todayDate[2]+'/'+(todayDate[0])[2:]#DEBUG
 # load the stylesheet
 styleSheet=loadFile(config_stylesheetLocation)
 # if load fails make variable into blank string for concat to work
@@ -153,6 +166,10 @@ outputFileText += '</h2>'+'\n'
 outputFileText += '</div>'+'\n'
 #print config_location
 #print data
+########################################################
+# Add the top of the page first since its on all outputs	
+outputFileTextTop += "<h1>TODAY'S MENU:</h1>"+'\n'
+# split up the input file and split in into an array
 data= data.split('\n')
 for line in data:
 	#print line #DEBUG
@@ -166,108 +183,33 @@ for line in data:
 		currentTime = int(currentTime[3])
 		# hours in military time
 		# DEBUG BELOW
-		print 'splitline[1]=',splitline[1] #DEBUG
-		print 'currentTime=',currentTime,'todayDate=', todayDate,'splitline[0]=', splitline[0]
-		print currentTime,'>=',config_breakfastStartTime,') and (',currentTime,' < ',config_lunchStartTime
-		print currentTime,'>=',config_lunchStartTime,') and (',currentTime,' < ',config_dinnerStartTime
-		print currentTime,'>=',config_dinnerStartTime,') and (',currentTime,' < ',config_breakfastStartTime
+		#print 'splitline[1]=',splitline[1] #DEBUG
+		#print 'currentTime=',currentTime,'todayDate=', todayDate,'splitline[0]=', splitline[0]
+		#print currentTime,'>=',config_breakfastStartTime,') and (',currentTime,' < ',config_lunchStartTime
+		#print currentTime,'>=',config_lunchStartTime,') and (',currentTime,' < ',config_dinnerStartTime
+		#print currentTime,'>=',config_dinnerStartTime,') and (',currentTime,' < ',config_breakfastStartTime
 		if (currentTime >= config_breakfastStartTime) and (currentTime < config_lunchStartTime):
 			if splitline[1] == 'BREAKFAST':
-				#outputFileTextTop += "<h1>TODAY'S "+'BREAKFAST'+" MENU:</h1>"+'\n'
-				outputFileTextTop += "<h1>TODAY'S MENU:</h1>"+'\n'
 				#print 'Its BREAKFAST time'
 				for item in splitline[2:]:
-					if len(item) > 0:
-						# if item is all upercase its diffrent
-						if item == '#':
-							outputFileText+=(('\t</br>'*2)+'\n')
-							#print two blank lines
-							print
-							print
-						elif item[0] == '#':
-							outputFileText+=('\t<h1 class="header">'+item[1:]+'</h1>\n')
-							# print a header
-							print '#'*20
-							print item[1:]
-							print '#'*20
-						else:
-							# print a item
-							outputFileText+=('\t<div class="menu_item">\n\t\t'+item+'\n\t</div>\n')
-							print (' - '+item)
+					outputFileText+=phaseLine(item)
 		elif (currentTime >= config_lunchStartTime) and (currentTime < config_dinnerStartTime):
 			if splitline[1] == 'LUNCH':
-				#outputFileTextTop += "<h1>TODAY'S "+'LUNCH'+" MENU:</h1>"+'\n'
-				outputFileTextTop += "<h1>TODAY'S MENU:</h1>"+'\n'
 				#print 'Its LUNCH time'
 				for item in splitline[2:]:
-					if len(item) > 0:
-						# if item is all upercase its diffrent
-						if item == '#':
-							outputFileText+=(('\t</br>'*2)+'\n')
-							# print two blank lines
-							print
-							print
-						elif item[0] == '#':
-							outputFileText+=('\t<h1 class="header">'+item[1:]+'</h1>\n')
-							# print a header
-							print '#'*20
-							print item[1:]
-							print '#'*20
-						else:
-							# print a item
-							outputFileText+=('\t<div class="menu_item">\n\t\t'+item+'\n\t</div>\n')
-							print (' - '+item)
-		#elif (currentTime >= config_dinnerStartTime) and (currentTime <= 24):
+					outputFileText+=phaseLine(item)
 		elif (currentTime >= config_dinnerStartTime) and (currentTime < config_lateMealStartTime):
 			if splitline[1] == 'DINNER':
 				#print 'Its DINNER time'
-				#outputFileTextTop += "<h1>TODAY'S "+'DINNER'+" MENU:</h1>"+'\n'
-				outputFileTextTop += "<h1>TODAY'S MENU:</h1>"+'\n'
 				for item in splitline[2:]:
-					if len(item) > 0:
-						# if item is all upercase its diffrent
-						if item == '#':
-							outputFileText+=(('\t</br>'*2)+'\n')
-							# print two blank lines
-							print
-							print
-						elif item[0] == '#':
-							outputFileText+=('\t<h1 class="header">'+item[1:]+'</h1>\n')
-							# print a header
-							print '#'*20
-							print item[1:]
-							print '#'*20
-						else:
-							# print a item
-							outputFileText+=('\t<div class="menu_item">\n\t\t'+item+'\n\t</div>\n')
+					outputFileText+=phaseLine(item)
 		elif (currentTime >= config_lateMealStartTime) and (currentTime <= 24):
 			if splitline[1] == 'LATEMEAL':
-				#print 'Its DINNER time'
-				#outputFileTextTop += "<h1>TODAY'S "+'DINNER'+" MENU:</h1>"+'\n'
-				outputFileTextTop += "<h1>TODAY'S MENU:</h1>"+'\n'
 				for item in splitline[2:]:
-					if len(item) > 0:
-						# if item is all upercase its diffrent
-						if item == '#':
-							outputFileText+=(('\t</br>'*2)+'\n')
-							# print two blank lines
-							print
-							print
-						elif item[0] == '#':
-							outputFileText+=('\t<h1 class="header">'+item[1:]+'</h1>\n')
-							# print a header
-							print '#'*20
-							print item[1:]
-							print '#'*20
-						else:
-							# print a item
-							outputFileText+=('\t<div class="menu_item">\n\t\t'+item+'\n\t</div>\n')
-							print (' - '+item)
-					print (' - '+item)
+					outputFileText+=phaseLine(item)
 # close the webpage body out
 outputFileText = outputFileTextTop+outputFileText
 outputFileText += '</body>\n</html>'
 print outputFileText
 if len(config_outputLocation)>1:
 	writeFile(config_outputLocation,outputFileText)
-
