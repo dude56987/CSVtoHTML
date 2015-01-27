@@ -14,6 +14,22 @@ install:
 	sudo mkdir -p /usr/share/signage
 	sudo mkdir -p /usr/share/signage/default
 	sudo mkdir -p /var/www/html/glue
+	sudo mkdir -p /var/www/html/glue/backgrounds
+	sudo mkdir -p /var/www/html/glue/backgrounds/extra
+	sudo mkdir -p /var/www/html/glue/backgrounds/1
+	sudo mkdir -p /var/www/html/glue/backgrounds/2
+	sudo mkdir -p /var/www/html/glue/backgrounds/3
+	sudo mkdir -p /var/www/html/glue/backgrounds/4
+	sudo mkdir -p /var/www/html/glue/backgrounds/5
+	sudo mkdir -p /var/www/html/glue/backgrounds/6
+	sudo mkdir -p /var/www/html/glue/backgrounds/7
+	sudo mkdir -p /var/www/html/glue/backgrounds/8
+	sudo mkdir -p /var/www/html/glue/backgrounds/9
+	sudo mkdir -p /var/www/html/glue/backgrounds/10
+	sudo mkdir -p /var/www/html/glue/backgrounds/11
+	sudo mkdir -p /var/www/html/glue/backgrounds/12
+	# copy over backgrounds
+	sudo cp -rvf backgrounds /var/www/html/glue/
 	# copy over the program
 	sudo cp -fv glue.py /usr/bin/glue
 	sudo link /usr/bin/glue /etc/cron.hourly/glue || echo 'file exists!'

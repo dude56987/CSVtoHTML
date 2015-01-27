@@ -1,5 +1,5 @@
 #! /usr/bin/python
-import urllib2,os,sys
+import urllib2,os,sys,random
 ########################################################################
 def loadFile(fileName):
 	try:
@@ -141,11 +141,6 @@ if styleSheet == False:
 # start to build the output file
 # build the top to be put at the front of the outputFileText string
 # this allows us to set the meal of the day time dynamicly
-outputFileTextTop  = '<html>\n'
-outputFileTextTop += '<head>\n<style>\n'+styleSheet+'\n</style>\n</head>\n'
-outputFileTextTop += '<body>\n'
-outputFileTextTop += '<div class="date_area">\n'
-#outputFileTextTop += "<h1>TODAY'S "++" MENU:</h1>"+'\n'
 # build middle section first
 outputFileText = '<h2><script>'+'\n'
 outputFileText += '/* Current date script */'+'\n'
@@ -167,10 +162,9 @@ outputFileText += '</div>'+'\n'
 #print config_location
 #print data
 ########################################################
-# Add the top of the page first since its on all outputs	
-outputFileTextTop += "<h1>TODAY'S MENU:</h1>"+'\n'
 # split up the input file and split in into an array
 data= data.split('\n')
+backgroundImage = ''
 for line in data:
 	#print line #DEBUG
 	splitline = line.split(',')
@@ -192,21 +186,48 @@ for line in data:
 			if splitline[1] == 'BREAKFAST':
 				#print 'Its BREAKFAST time'
 				for item in splitline[2:]:
+					if item[:12] == "#BACKGROUND=":
+						backgroundImage=item[12:]
 					outputFileText+=phaseLine(item)
 		elif (currentTime >= config_lunchStartTime) and (currentTime < config_dinnerStartTime):
 			if splitline[1] == 'LUNCH':
 				#print 'Its LUNCH time'
 				for item in splitline[2:]:
+					if item[:12] == "#BACKGROUND=":
+						backgroundImage=item[12:]
 					outputFileText+=phaseLine(item)
 		elif (currentTime >= config_dinnerStartTime) and (currentTime < config_lateMealStartTime):
 			if splitline[1] == 'DINNER':
 				#print 'Its DINNER time'
 				for item in splitline[2:]:
+					if item[:12] == "#BACKGROUND=":
+						backgroundImage=item[12:]
 					outputFileText+=phaseLine(item)
 		elif (currentTime >= config_lateMealStartTime) and (currentTime <= 24):
 			if splitline[1] == 'LATEMEAL':
 				for item in splitline[2:]:
+					if item[:12] == "#BACKGROUND=":
+						backgroundImage=item[12:]
 					outputFileText+=phaseLine(item)
+# check current time based on month
+# below is month number variable
+if backgroundImage == '':
+	monthPath = os.path.join("backgrounds/",str(time.localtime()[1]))
+	monthFiles = os.listdir(monthPath)
+	if len(monthFiles) == 0:
+		backgroundImage = ''
+	else:
+		monthFile = monthFiles[int(random.randrange(0,len(monthFiles)))]
+		backgroundImage = monthPath+monthFiles[random.randrange(0,(len(monthFiles)))]
+# default background image
+if backgroundImage == '':
+	backgroundImage='backgrounds/extra/default.jpg'
+outputFileTextTop  = '<html style="background-image: url('+"'"+backgroundImage+"'"+')">\n'
+outputFileTextTop += '<head>\n<style>\n'+styleSheet+'\n</style>\n</head>\n'
+outputFileTextTop += '<body>\n'
+# Add the top of the page first since its on all outputs	
+outputFileTextTop += "<h1>TODAY'S MENU:</h1>"+'\n'
+outputFileTextTop += '<div class="date_area">\n'
 # close the webpage body out
 outputFileText = outputFileTextTop+outputFileText
 outputFileText += '</body>\n</html>'
