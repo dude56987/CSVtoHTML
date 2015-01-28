@@ -64,6 +64,9 @@ def phaseLine(item):
 		if item == '#':
 			#print two blank lines
 			outputFileText+=(('\t</br>'*2)+'\n')
+		elif item[:12] == "#BACKGROUND=":
+			# do nothing
+			return ''
 		elif item[0] == '#':
 			# print a header
 			outputFileText+=('\t<h1 class="header">'+item[1:]+'</h1>\n')
@@ -187,28 +190,35 @@ for line in data:
 				#print 'Its BREAKFAST time'
 				for item in splitline[2:]:
 					if item[:12] == "#BACKGROUND=":
-						backgroundImage=item[12:]
+						backgroundImage='backgrounds/extra/'
+						backgroundImage+=item[12:]
 					outputFileText+=phaseLine(item)
 		elif (currentTime >= config_lunchStartTime) and (currentTime < config_dinnerStartTime):
 			if splitline[1] == 'LUNCH':
 				#print 'Its LUNCH time'
 				for item in splitline[2:]:
 					if item[:12] == "#BACKGROUND=":
-						backgroundImage=item[12:]
+						backgroundImage='backgrounds/extra/'
+						backgroundImage+=item[12:]
 					outputFileText+=phaseLine(item)
 		elif (currentTime >= config_dinnerStartTime) and (currentTime < config_lateMealStartTime):
 			if splitline[1] == 'DINNER':
 				#print 'Its DINNER time'
 				for item in splitline[2:]:
 					if item[:12] == "#BACKGROUND=":
-						backgroundImage=item[12:]
+						backgroundImage='backgrounds/extra/'
+						backgroundImage+=item[12:]
 					outputFileText+=phaseLine(item)
 		elif (currentTime >= config_lateMealStartTime) and (currentTime <= 24):
 			if splitline[1] == 'LATEMEAL':
 				for item in splitline[2:]:
 					if item[:12] == "#BACKGROUND=":
-						backgroundImage=item[12:]
+						backgroundImage='backgrounds/extra/'
+						backgroundImage+=item[12:]
 					outputFileText+=phaseLine(item)
+print '#'*80
+print backgroundImage
+print '#'*80
 # check current time based on month
 # below is month number variable
 if backgroundImage == '':
@@ -218,7 +228,7 @@ if backgroundImage == '':
 		backgroundImage = ''
 	else:
 		monthFile = monthFiles[int(random.randrange(0,len(monthFiles)))]
-		backgroundImage = monthPath+monthFiles[random.randrange(0,(len(monthFiles)))]
+		backgroundImage = os.path.join(monthPath,monthFiles[random.randrange(0,(len(monthFiles)))])
 # default background image
 if backgroundImage == '':
 	backgroundImage='backgrounds/extra/default.jpg'
