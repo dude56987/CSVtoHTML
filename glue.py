@@ -223,7 +223,8 @@ print '#'*80
 # below is month number variable
 if backgroundImage == '':
 	monthPath = os.path.join("backgrounds/",str(time.localtime()[1]))
-	monthFiles = os.listdir(monthPath)
+	fullMonthPath = os.path.join(config_outputLocation,monthPath)
+	monthFiles = os.listdir(fullMonthPath)
 	if len(monthFiles) == 0:
 		backgroundImage = ''
 	else:
@@ -243,4 +244,4 @@ outputFileText = outputFileTextTop+outputFileText
 outputFileText += '</body>\n</html>'
 print outputFileText
 if len(config_outputLocation)>1:
-	writeFile(config_outputLocation,outputFileText)
+	writeFile(os.path.join(config_outputLocation,'index.html'),outputFileText)
