@@ -1,14 +1,31 @@
 help:
 	#####################################################
-	# Type "sudo make install" to install the program   #
-	# Type "sudo make uninstall" to remove the program  #
+	# Type "make install" to install the program        #
+	# Type "make uninstall" to remove the program       #
 	#####################################################
-	# The below are for developers                      #
+	# The below commands are for developers             #
+	#####################################################
+	# -Type "sudo make test" to install and run the     #
+	#   program                                         #
+	# -Type "make view-output" to view the generated    #
+	#   webpage                                         #
 	# -Type "sudo make test-install" to install without #
 	#   setting up cron                                 #
-	# -Type "sudo make push to create a zip and push it #
-	#   to local apache server                          #
+	# -Type "sudo make push" to create a zip and push   #
+	#   it to local apache server                       #
 	#####################################################
+view-output:
+	midori http://localhost/glue
+test:
+	make install
+	sudo glue
+full-install:
+	sudo apt-get install apache2 --assume-yes
+	sudo apt-get install ufw --assume-yes
+	sudo ufw enable
+	sudo ufw allow proto tcp from any to any port 80
+	make install
+	sudo glue
 install:
 	# create directories
 	sudo mkdir -p /usr/share/signage
@@ -66,6 +83,8 @@ push:
 	# nuke the zipfile if it already exists
 	rm glue.zip || echo 'already gone yo!'
 	# zip up the program into glue.zip
-	zip -rv glue.zip glue.cfg glue.py makefile style.css 
+	zip -rv glue.zip glue.cfg glue.py makefile style.css backgrounds
+	# create directory for glue if it does not yet exist
+	sudo mkdir -p /var/www/html/glue
 	# copy the zipfile into the web directory
-	sudo cp -v glue.zip /var/www/html
+	sudo cp -v glue.zip /var/www/html/glue
