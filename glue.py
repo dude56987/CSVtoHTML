@@ -134,8 +134,6 @@ if tempMonthDate[0] == '0':
 	# remove leading zeros from month in date field
 	tempMonthDate=tempMonthDate[1:]
 todayDate = tempMonthDate+'/'+tempDayDate+'/'+todayDate[0]
-#print todayDate,'= todays date'#DEBUG
-#todayDate = todayDate[1]+'/'+todayDate[2]+'/'+(todayDate[0])[2:]#DEBUG
 # load the stylesheet
 styleSheet=loadFile(config_stylesheetLocation)
 # if load fails make variable into blank string for concat to work
@@ -169,22 +167,12 @@ outputFileText += '</div>'+'\n'
 data= data.split('\n')
 backgroundImage = ''
 for line in data:
-	#print line #DEBUG
 	splitline = line.split(',')
-	#print splitline #DEBUG
-	#print splitline
 	if todayDate == splitline[0]:
-		#print todayDate,'is equal to ',splitline[0]
 		currentTime = time.localtime()
 		# the fourth item in the object is hours in military time
 		currentTime = int(currentTime[3])
 		# hours in military time
-		# DEBUG BELOW
-		#print 'splitline[1]=',splitline[1] #DEBUG
-		#print 'currentTime=',currentTime,'todayDate=', todayDate,'splitline[0]=', splitline[0]
-		#print currentTime,'>=',config_breakfastStartTime,') and (',currentTime,' < ',config_lunchStartTime
-		#print currentTime,'>=',config_lunchStartTime,') and (',currentTime,' < ',config_dinnerStartTime
-		#print currentTime,'>=',config_dinnerStartTime,') and (',currentTime,' < ',config_breakfastStartTime
 		if (currentTime >= config_breakfastStartTime) and (currentTime < config_lunchStartTime):
 			if splitline[1] == 'BREAKFAST':
 				#print 'Its BREAKFAST time'
@@ -211,6 +199,7 @@ for line in data:
 					outputFileText+=phaseLine(item)
 		elif (currentTime >= config_lateMealStartTime) and (currentTime <= 24):
 			if splitline[1] == 'LATEMEAL':
+				# if the user specifys latemeal
 				for item in splitline[2:]:
 					if item[:12] == "#BACKGROUND=":
 						backgroundImage='backgrounds/extra/'
