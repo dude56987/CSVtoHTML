@@ -83,39 +83,53 @@ temp = []
 for item in config:
 	temp.append(item.split('='))
 config = temp
-# preset some variables if they are not set in program
+# preset variable defaults if they are not set in config file
 config_stylesheetLocation=''
+config_outputLocation='~/'
+config_breakfastStartTime='0'
+config_lunchStartTime='10'
+config_dinnerStartTime='15'
+config_lateMealStartTime='19'
 # set varables from config file for program
+print ("#"*80)
+print ("Reading config file...")
+print ("#"*80)
 for setting in config:
-	# config file location
-	if setting[0] == 'location':
-		config_location=setting[1].replace(' ','').replace('\r','\n')
-		print ("location="+config_location+';')
-	elif setting[0] == 'outputLocation':
-		config_outputLocation=setting[1].replace(' ','').replace('\r','\n')
-		print ("outputLocation="+config_outputLocation+';')
-	# stylesheet location
-	elif setting[0] == 'stylesheetLocation':
-		config_stylesheetLocation=setting[1].replace(' ','')
-		print ("stylesheetLocation="+config_stylesheetLocation)
-	# BREAKFAST 
-	elif setting[0] == 'breakfastStartTime':
-		config_breakfastStartTime=int(setting[1].replace(' ',''))
-		print (str(config_breakfastStartTime)+';')
-	# LUNCH
-	elif setting[0] == 'lunchStartTime':
-		config_lunchStartTime=int(setting[1].replace(' ',''))
-		print (str(config_lunchStartTime)+';')
-	# DINNER
-	elif setting[0] == 'dinnerStartTime':
-		config_dinnerStartTime=int(setting[1].replace(' ',''))
-		print (str(config_dinnerStartTime)+';')
-	# LATE MEAL 
-	elif setting[0] == 'lateMealStartTime':
-		config_lateMealStartTime=int(setting[1].replace(' ',''))
-		print (str(config_dinnerStartTime)+';')
-	else:
-		print 'Unknown config option: ',setting
+	if len(setting)>1:
+		if setting[0][0] == '#':
+			# the line is a comment, ignore it
+			pass
+		# config file location
+		if setting[0] == 'location':
+			config_location=setting[1].replace(' ','').replace('\r','\n')
+			print ("location="+config_location+';')
+		elif setting[0] == 'outputLocation':
+			config_outputLocation=setting[1].replace(' ','').replace('\r','\n')
+			print ("outputLocation="+config_outputLocation+';')
+		# stylesheet location
+		elif setting[0] == 'stylesheetLocation':
+			config_stylesheetLocation=setting[1].replace(' ','')
+			print ("stylesheetLocation="+config_stylesheetLocation)
+		# BREAKFAST 
+		elif setting[0] == 'breakfastStartTime':
+			config_breakfastStartTime=int(setting[1].replace(' ',''))
+			print ('breakfastStartTime='+str(config_breakfastStartTime)+';')
+		# LUNCH
+		elif setting[0] == 'lunchStartTime':
+			config_lunchStartTime=int(setting[1].replace(' ',''))
+			print ('lunchStartTime='+str(config_lunchStartTime)+';')
+		# DINNER
+		elif setting[0] == 'dinnerStartTime':
+			config_dinnerStartTime=int(setting[1].replace(' ',''))
+			print ('dinnerStartTime='+str(config_dinnerStartTime)+';')
+		# LATE MEAL 
+		elif setting[0] == 'lateMealStartTime':
+			config_lateMealStartTime=int(setting[1].replace(' ',''))
+			print ('lateMealStartTime='+str(config_lateMealStartTime)+';')
+		else:
+			print 'Unknown config option: ',setting
+# Seprate output with lines
+print ("#"*80)
 # load the file into a string depending on if its online or offline
 if 'http' in config_location:
 	data = downloadFile(config_location)
@@ -174,30 +188,34 @@ for line in data:
 		currentTime = int(currentTime[3])
 		# hours in military time
 		if (currentTime >= config_breakfastStartTime) and (currentTime < config_lunchStartTime):
+		# checks if current time is between breakfast start and lunch start
 			if splitline[1] == 'BREAKFAST':
-				#print 'Its BREAKFAST time'
+				#Its BREAKFAST time
 				for item in splitline[2:]:
 					if item[:12] == "#BACKGROUND=":
 						backgroundImage='backgrounds/extra/'
 						backgroundImage+=item[12:]
 					outputFileText+=phaseLine(item)
 		elif (currentTime >= config_lunchStartTime) and (currentTime < config_dinnerStartTime):
+		# checks if current time is between lunch start and dinner start
 			if splitline[1] == 'LUNCH':
-				#print 'Its LUNCH time'
+				#Its LUNCH time
 				for item in splitline[2:]:
 					if item[:12] == "#BACKGROUND=":
 						backgroundImage='backgrounds/extra/'
 						backgroundImage+=item[12:]
 					outputFileText+=phaseLine(item)
 		elif (currentTime >= config_dinnerStartTime) and (currentTime < config_lateMealStartTime):
+		# checks if current time is between dinner start and latemeal start
 			if splitline[1] == 'DINNER':
-				#print 'Its DINNER time'
+				#Its DINNER time
 				for item in splitline[2:]:
 					if item[:12] == "#BACKGROUND=":
 						backgroundImage='backgrounds/extra/'
 						backgroundImage+=item[12:]
 					outputFileText+=phaseLine(item)
 		elif (currentTime >= config_lateMealStartTime) and (currentTime <= 24):
+		# checks if current time is between latemeal start and midnight start
 			if splitline[1] == 'LATEMEAL':
 				# if the user specifys latemeal
 				for item in splitline[2:]:
@@ -205,9 +223,6 @@ for line in data:
 						backgroundImage='backgrounds/extra/'
 						backgroundImage+=item[12:]
 					outputFileText+=phaseLine(item)
-print '#'*80
-print backgroundImage
-print '#'*80
 # check current time based on month
 # below is month number variable
 if backgroundImage == '':
@@ -231,6 +246,12 @@ outputFileTextTop += '<div class="date_area">\n'
 # close the webpage body out
 outputFileText = outputFileTextTop+outputFileText
 outputFileText += '</body>\n</html>'
+# print the output webpage to the screen
+print ("#"*80)
+print ('Printing generated webpage...')
+print ("#"*80)
 print outputFileText
+print ("#"*80)
+# write the webpage to the output location as index.html
 if len(config_outputLocation)>1:
 	writeFile(os.path.join(config_outputLocation,'index.html'),outputFileText)
