@@ -22,11 +22,15 @@ test:
 full-install:
 	sudo apt-get install apache2 --assume-yes
 	sudo apt-get install ufw --assume-yes
+	sudo apt-get install php5 --assume-yes
 	sudo ufw enable
 	sudo ufw allow proto tcp from any to any port 80
 	make install
 	sudo glue
 install:
+	# create crontab entry, remove it if it already exists
+	sudo sed -i "s/\*\/3\ \*\ \*\ \*\ \*\ root\ glue\ \-c//g" /etc/crontab
+	sudo bash -c 'echo "*/3 * * * * root glue -c" >> /etc/crontab'
 	# create directories
 	sudo mkdir -p /usr/share/signage
 	sudo mkdir -p /usr/share/signage/default
@@ -57,6 +61,8 @@ install:
 	# link the file to be in /usr/bin/ and make it executable
 	sudo chmod +x /usr/bin/glue
 	sudo chmod +x /etc/cron.hourly/glue
+	# copy over the webupdate script
+	sudo cp web/update.php /var/www/html/glue/
 test-install:
 	# dont make the cron job work
 	# create directories -p is like force
