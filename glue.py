@@ -76,6 +76,15 @@ def phaseLine(item):
 	return outputFileText
 ########################################################################
 import datetime, time
+if '-c' in sys.argv:
+	if os.path.exists('/tmp/refreshGlue'):
+		# clear the file
+		os.system('rm -f /tmp/refreshGlue')
+		# run the script
+		pass
+	else:
+		# exit if no refresh file is set
+		exit()
 # load the config file into a string
 config = loadFile('/etc/glue.cfg')
 config = config.split('\n')
