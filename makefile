@@ -31,10 +31,12 @@ install:
 	# create crontab entry, remove it if it already exists
 	sudo sed -i "s/\*\/3\ \*\ \*\ \*\ \*\ root\ glue\ \-c//g" /etc/crontab
 	sudo bash -c 'echo "*/3 * * * * root glue -c" >> /etc/crontab'
+	#sed -i "/^$/d" /etc/crontab;
 	# create directories
 	sudo mkdir -p /usr/share/signage
 	sudo mkdir -p /usr/share/signage/default
 	sudo mkdir -p /var/www/html/glue
+	sudo mkdir -p /var/www/html/glue/admin
 	sudo mkdir -p /var/www/html/glue/backgrounds
 	sudo mkdir -p /var/www/html/glue/backgrounds/extra
 	sudo mkdir -p /var/www/html/glue/backgrounds/1
@@ -62,7 +64,7 @@ install:
 	sudo chmod +x /usr/bin/glue
 	sudo chmod +x /etc/cron.hourly/glue
 	# copy over the webupdate script
-	sudo cp web/update.php /var/www/html/glue/
+	sudo cp -fvr web/* /var/www/html/glue/admin/
 test-install:
 	# dont make the cron job work
 	# create directories -p is like force

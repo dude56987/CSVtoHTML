@@ -30,7 +30,7 @@
 		        if (minutes.value == 0){
 					if (seconds.value == 1){
 						// when minutes value is 0 and seconds value reaches 1 redirect the page
-						window.location = "http://cafemenu.unionky.edu";
+						window.location = "main.php";
 					}
 				}
 			    setTimeout('Decrement()',1000);
