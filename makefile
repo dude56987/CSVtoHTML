@@ -65,6 +65,8 @@ install:
 	sudo chmod +x /etc/cron.hourly/glue
 	# copy over the webupdate script
 	sudo cp -fvr web/* /var/www/html/glue/admin/
+	# restart apache
+	sudo service apache2 restart
 test-install:
 	# dont make the cron job work
 	# create directories -p is like force
