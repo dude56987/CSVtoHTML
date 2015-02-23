@@ -1,5 +1,5 @@
 #! /usr/bin/python
-import urllib2,os,sys,random
+import urllib2,os,sys,random,datetime,time
 ########################################################################
 def loadFile(fileName):
 	try:
@@ -76,7 +76,8 @@ def phaseLine(item):
 			outputFileText+=('\t<div class="menu_item">\n\t\t'+item+'\n\t</div>\n')
 	return outputFileText
 ########################################################################
-import datetime, time
+# Main function
+########################################################################
 def main():
 	if '-c' in sys.argv:
 		if os.path.exists('/tmp/refreshGlue'):
@@ -268,5 +269,5 @@ def main():
 	# write the webpage to the output location as index.html
 	if len(config_outputLocation)>1:
 		writeFile(os.path.join(config_outputLocation,'index.html'),outputFileText)
-
+########################################################################
 main()
