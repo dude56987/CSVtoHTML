@@ -52,19 +52,19 @@
 				<form action="update.php">
 					<input type="submit" value="Update webpage" />
 				</form>
-				<form action="update.php">
+				<form action="editMenu.php">
 					<input type="submit" value="Edit Menu" />
 				</form>
-				<form action="update.php">
+				<form action="editBackgrounds.php">
 					<input type="submit" value="Edit Backgrounds" />
 				</form>
-				<form action="update.php">
+				<form action="systemSettings.php">
 					<input type="submit" value="System Settings" />
 				</form>
-				<form action="update.php">
+				<form action="help.php">
 					<input type="submit" value="Help" />
 				</form>
-				<form action="update.php">
+				<form action="logout.php">
 					<input type="submit" value="Logout" />
 				</form>
 			</div>
