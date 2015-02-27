@@ -165,29 +165,23 @@ def main():
 	# if load fails make variable into blank string for concat to work
 	if styleSheet == False:
 		styleSheet=''
-	# start to build the output file
-	# build the top to be put at the front of the outputFileText string
-	# this allows us to set the meal of the day time dynamicly
-	# build middle section first
-	outputFileText = '<h2><script>'+'\n'
-	outputFileText += '/* Current date script */'+'\n'
-	outputFileText += 'var mydate=new Date()'+'\n'
-	outputFileText += 'var year=mydate.getYear()'+'\n'
-	outputFileText += 'if (year < 1000)'+'\n'
-	outputFileText += 'year+=1900'+'\n'
-	outputFileText += 'var day=mydate.getDay()'+'\n'
-	outputFileText += 'var month=mydate.getMonth()'+'\n'
-	outputFileText += 'var daym=mydate.getDate()'+'\n'
-	outputFileText += 'if (daym<10)'+'\n'
-	outputFileText += 'daym="0"+daym'+'\n'
-	outputFileText += 'var dayarray=new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday")'+'\n'
-	outputFileText += 'var montharray=new Array("January","February","March","April","May","June","July","August","September","October","November","December")'+'\n'
-	outputFileText += 'document.write(dayarray[day]+", "+montharray[month]+" "+daym)'
-	outputFileText += '</script>'+'\n'
-	outputFileText += '</h2>'+'\n'
-	outputFileText += '</div>'+'\n'
-	#print config_location
-	#print data
+	# load the header and footer files
+	if os.path.exists('/usr/share/signage/default/head.html'):
+		header = loadFile('/usr/share/signage/default/head.html')
+		if header == False:
+			header = ''
+	else:
+		header = ''
+	if os.path.exists('/usr/share/signage/default/foot.html'):
+		footer = loadFile('/usr/share/signage/default/foot.html')
+		if footer == False:
+			footer = ''
+	else:
+		footer = ''
+	print ("#"*80)
+	print ("header= "+header)
+	print ("footer= "+footer)
+	print ("#"*80)
 	########################################################
 	# split up the input file and split in into an array
 	data= data.split('\n')
@@ -258,7 +252,7 @@ def main():
 	outputFileTextTop += "<h1>TODAY'S MENU:</h1>"+'\n'
 	outputFileTextTop += '<div class="date_area">\n'
 	# close the webpage body out
-	outputFileText = outputFileTextTop+outputFileText
+	outputFileText = outputFileTextTop+header+outputFileText+footer
 	outputFileText += '</body>\n</html>'
 	# print the output webpage to the screen
 	print ("#"*80)

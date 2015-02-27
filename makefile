@@ -57,7 +57,9 @@ install:
 	sudo cp -fv glue.py /usr/bin/glue
 	sudo link /usr/bin/glue /etc/cron.hourly/glue || echo 'file exists!'
 	# copy over the default css
-	sudo cp -fv style.css /usr/share/signage/style.css
+	sudo cp -fv style.css /usr/share/signage/default/style.css
+	sudo cp -fv head.html /usr/share/signage/default/head.html
+	sudo cp -fv foot.html /usr/share/signage/default/foot.html
 	# copy over the config file to /etc
 	sudo cp -fv glue.cfg /etc/glue.cfg
 	# link the file to be in /usr/bin/ and make it executable
