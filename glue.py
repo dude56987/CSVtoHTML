@@ -121,7 +121,7 @@ def main():
 			# stylesheet location
 			elif setting[0] == 'stylesheetLocation':
 				config_stylesheetLocation=setting[1].replace(' ','')
-				print ("stylesheetLocation="+config_stylesheetLocation)
+				print ("stylesheetLocation="+config_stylesheetLocation+';')
 			# BREAKFAST 
 			elif setting[0] == 'breakfastStartTime':
 				config_breakfastStartTime=int(setting[1].replace(' ',''))
@@ -178,14 +178,22 @@ def main():
 			footer = ''
 	else:
 		footer = ''
+	# print out content of the header and footer files to be added
+	# header part	
 	print ("#"*80)
-	print ("header= "+header)
-	print ("footer= "+footer)
+	print ("Printing header content...")
 	print ("#"*80)
+	print (header)
+	# footer part
+	print ("#"*80)
+	print ("Printing footer content...")
+	print ("#"*80)
+	print (footer)
 	########################################################
 	# split up the input file and split in into an array
 	data= data.split('\n')
 	backgroundImage = ''
+	outputFileText = ''
 	for line in data:
 		splitline = line.split(',')
 		if todayDate == splitline[0]:
