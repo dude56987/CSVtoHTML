@@ -2,8 +2,7 @@
 	<head>
 		<title></title>
 		<style>
-			
-		    #mainFrame{
+			#mainFrame{
 				width: 800px;
 				margin-left: auto;
 				margin-right: auto;
@@ -21,9 +20,9 @@
 			}
 			#frame {
 				font-size: 8px;
-	            width: 400px;
-			    height: 500px;
-			    border: 0;
+				width: 400px;
+				height: 500px;
+				border: 0;
 				/*
 			    -ms-transform: scale(0.25);
 			    -moz-transform: scale(0.25);

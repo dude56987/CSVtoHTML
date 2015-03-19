@@ -13,16 +13,34 @@ help:
 	#   setting up cron                                 #
 	# -Type "sudo make push" to create a zip and push   #
 	#   it to local apache server                       #
+	# -Type "sudo make adduser" add a new user that can #
+	#   login to the admin section of the site.         #
+	# -Type "sudo make editusers" to delete users       #
 	#####################################################
+adduser:
+	# This will create a new user that can login to the admin directory
+	sudo bash -c "echo -n 'Username:';read username;htpasswd web/.htpasswd $username"
+	make install
+editusers:
+	# delete the line with the username you want removed
+	# press enter to open the users file
+	read lol
+	sudo nano web/.htpasswd
+	make install
 view-output:
 	midori http://localhost/glue
 test:
 	make install
 	sudo glue
 full-install:
+	# setup and install apache
 	sudo apt-get install apache2 --assume-yes
-	sudo apt-get install ufw --assume-yes
+	sudo apt-get install apache2-utils --assume-yes
+	if ! grep "/var/www/html/glue/admin" /etc/apache2/apache2.conf;then bash -c "echo '<Directory /var/www/html/glue/admin>' >> /etc/apache2/apache2.conf;echo 'Options Indexes FollowSymLinks' >> /etc/apache2/apache2.conf;echo 'AllowOverride All' >> /etc/apache2/apache2.conf;echo 'Require all granted' >> /etc/apache2/apache2.conf;echo '</Directory>' >> /etc/apache2/apache2.conf";fi
+	# add php
 	sudo apt-get install php5 --assume-yes
+	# install and setup firewall
+	sudo apt-get install ufw --assume-yes
 	sudo ufw enable
 	sudo ufw allow proto tcp from any to any port 80
 	make install
@@ -67,8 +85,12 @@ install:
 	sudo chmod +x /etc/cron.hourly/glue
 	# copy over the webupdate script
 	sudo cp -fvr web/* /var/www/html/glue/admin/
+	# copy over the htaccess file and the htpasswd file
+	sudo cp -fvr web/.ht* /var/www/html/glue/admin/
 	# restart apache
 	sudo service apache2 restart
+	# run glue to create a page
+	sudo glue
 test-install:
 	# dont make the cron job work
 	# create directories -p is like force
@@ -79,6 +101,8 @@ test-install:
 	sudo cp -fv glue.py /usr/bin/glue
 	# copy over the default css
 	sudo cp -fv style.css /usr/share/signage/style.css
+	# copy over the default users for admin area
+	sudo cp -fv users.cfg /usr/share/signage/users.cfg
 	# copy over the config file to /etc
 	sudo cp -fv glue.cfg /etc/glue.cfg
 	# link the file to be in /usr/bin/ and make it executable

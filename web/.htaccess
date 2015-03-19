@@ -1,0 +1,4 @@
+AuthUserFile /var/www/html/glue/admin/.htpasswd
+AuthName "Authorization Required"
+AuthType Basic
+Require valid-user
