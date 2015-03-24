@@ -14,6 +14,11 @@
 			$input=filter_input(INPUT_GET, $varName);
 			return $input;
 		};
+		function writeFile($filePath,$stringToWrite){
+			 $myFileObject = fopen($filePath, "w") or die("Unable to open file!");
+			 fwrite($myFileObject, $stringToWrite);
+			 fclose($myFileObject);
+		}
 		$settings= array(
 			"sourceLocation" => "",
 			"styleLocation" => "",
@@ -34,9 +39,11 @@
 		$configFile=file("/etc/glue.cfg");
 		print "<form action='systemSettings.php'>";
 		foreach($configFile as $entry){
-			$entry = explode('=',$entry);
-			print "<h2>".$entry[0]."</h2>";
-			print "<input name='outputLocation' type='text' value='".$entry[1]."' />";
+			if($entry[0] != "#"){
+				$entry = explode('=',$entry);
+				print "<h2>".$entry[0]."</h2>";
+				print "<input name='outputLocation' type='text' value='".$entry[1]."' name='".$entry[0]."' />";
+			}
 		}
 		print "<p><input type='submit' value='Save Changes' /></p></form>";
 		?>
