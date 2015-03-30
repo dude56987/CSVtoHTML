@@ -30,9 +30,7 @@
 		);
 		//for($index=0;$index<count($settings);$index++){
 		foreach($settings as $item){
-			print htmlspecialchars($item)."<br />";//DEBUG
 			$temp=grabInput($item);
-			print htmlspecialchars($temp)."<br />";//DEBUG
 			if(count($temp)){
 				// concat the name and the value given to look like
 				// the config file so the same code can read the 
@@ -43,16 +41,12 @@
 		// if the length of the sourcelocation variable is longer than
 		// the string source variable itself, a new setting is being
 		// saved and it needs to be updated
-		print (strlen($settings['location']).'>'.(strlen("location")));
 		if (strlen($settings['location']) > (strlen("location"))){
 			print "<h3 style='color:green'>Updated Savefile</h3>";
 			$configFile=$settings;
 		}else{
-			//else show the form
 			// readfile /etc/glue.cfg and input current values into below
-			// form so user can update and rewrite the file
-			//
-			//Read the file to insert it below
+			// form so user can update and edit the file
 			$configFile=file("/etc/glue.cfg");
 			// remove line endings
 			$tempArray=array();
