@@ -1,6 +1,7 @@
 <html>
 	<head>
 		<title></title>
+		<link rel="stylesheet" type="text/css" href="style.css" />
 	<style>
 		input{
 			width:100%;
@@ -44,6 +45,15 @@
 		if (strlen($settings['location']) > (strlen("location"))){
 			print "<h3 style='color:green'>Updated Savefile</h3>";
 			$configFile=$settings;
+			// pull the configfile into a string
+			$tempArray = ''; 
+			foreach($configFile as $item){
+				$tempArray=$tempArray.$item."\n";
+			}
+			// write the new version of the configfile
+			writeFile('/etc/glue.cfg',$tempArray);
+			// update the glue config
+			exec('touch /tmp/refreshGlue');
 		}else{
 			// readfile /etc/glue.cfg and input current values into below
 			// form so user can update and edit the file
@@ -70,5 +80,6 @@
 		}
 		print "<p><input type='submit' action='systemSettings.php' value='Save Changes' /></p></form>";
 		?>
+		<a href='main.php'>Return to Main Menu</a>
 	</body>
 </html>
