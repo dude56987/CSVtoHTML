@@ -80,6 +80,8 @@ install:
 	sudo cp -fv foot.html /usr/share/signage/default/foot.html
 	# copy over the config file to /etc
 	sudo cp -fv glue.cfg /etc/glue.cfg
+	# add the menu if it dont exist
+	sudo touch /usr/share/signage/menu.csv
 	# allow php system to edit glue.cfg
 	sudo chmod 0777 /etc/glue.cfg
 	# link the file to be in /usr/bin/ and make it executable
