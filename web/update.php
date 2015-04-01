@@ -1,12 +1,7 @@
 <html>
 	<head>
 	    <title>Update Screen</title>
-	    <style>
-			html {
-				background-color: white;
-				color: black;
-			}
-	    </style>
+	    <link rel="stylesheet" type="text/css" href="style.css" />
 	    <script type="text/javascript">
 		// set minutes
 	    var mins = 3;
