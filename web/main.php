@@ -1,6 +1,7 @@
 <html>
 	<head>
 		<title></title>
+		<link rel="stylesheet" type="text/css" href="style.css" />
 		<style>
 			#mainFrame{
 				width: 800px;
@@ -15,6 +16,7 @@
 				text-align: center;
 			}
 			#inputPanel{
+				margin-top: 100px;
 				width: 400px;
 				float: right;
 			}
@@ -63,7 +65,7 @@
 				<form action="help.php">
 					<input type="submit" value="Help" />
 				</form>
-				<form action="logout.php">
+				<form action="../">
 					<input type="submit" value="Logout" />
 				</form>
 			</div>
