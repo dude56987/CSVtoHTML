@@ -75,7 +75,7 @@
 				// split up lines based on '='
 				$entry = explode('=',$entry);
 				print "<h2>".$entry[0]."</h2>";
-				print "<input name='".$entry[0]."' type='text' value='".$entry[1]."' name='".$entry[0]."' />";
+				print "<input name='".$entry[0]."' type='text' value='".$entry[1]."' />";
 			}
 		}
 		print "<p><input type='submit' action='systemSettings.php' value='Save Changes' /></p></form>";
