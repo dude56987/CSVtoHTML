@@ -30,39 +30,46 @@
 			 fwrite($myFileObject, $stringToWrite);
 			 fclose($myFileObject);
 		}
-		$settings= array(
-			"location" => "location",
-			"stylesheetLocation" => "stylesheetLocation",
-			"outputLocation" => "outputLocation",
-			"breakfastStartTime" => "breakfastStartTime",
-			"lunchStartTime" => "lunchStartTime",
-			"dinnerStartTime" => "dinnerStartTime",
-			"lateMealStartTime" => "lateMealStartTime"
-		);
-		//for($index=0;$index<count($settings);$index++){
-		foreach($settings as $item){
-			$temp=grabInput($item);
-			if(count($temp)){
-				// concat the name and the value given to look like
-				// the config file so the same code can read the 
-				// config file into the program
-				$settings[$item]=$settings[$item].'='.$temp;
+		// THIS SECTION ONLY HANDLES ADDITIONS TO THE DATA
+		// Build the data from user submited changes
+		// Write new datafile to disk with changes
+		$outputString="";
+		// use foreach to account for however many rows the list has
+		// columns are static at 30 so we can use this to build the
+		// config file from the post data
+		// This needs put into a array to pull out error data
+		//foreach($_POST as $item){
+		print floor(count($_POST)/30)."<br>\n";// DEBUG
+		for($row=0;$row<floor(count($_POST)/30);$row++){
+			for($col=0;$col<=30;$col++){
+				// skip blank rows
+				if(empty($_POST[$row."_".$col])){
+					// empty post
+				}else{
+					$outputString=$outputString.$_POST[$row."_".$col].",";
+				}
 			}
-	}
-	// if the length of the sourcelocation variable is longer than
-	// the string source variable itself, a new setting is being
-	// saved and it needs to be updated
-	if (strlen($settings['location']) > (strlen("location"))){
-		print "<h3 style='color:green'>Updated Savefile</h3>";
-		$configFile=$settings;
-		// pull the configfile into a string
-		$tempArray = ''; 
-		foreach($configFile as $item){
-			$tempArray=$tempArray.$item."\n";
+			$outputString=$outputString."<br/>\n";
 		}
-		// write the new version of the configfile
-		writeFile('/usr/share/signage/menu.csv',$tempArray);
-	}else{
+		print $outputString;// DEBUG
+		// clean up the empty rows inside the data spreadsheet
+		$tempString=explode($outputString, "\n");
+		$outputString="";
+		foreach($tempString as $row){
+			$tempRow=explode($row, ",");
+			// if first user assigned variable is missing
+			// then the line is ignored
+			if(empty($tempRow[2])){
+				// do nothing			
+			}else{
+				// append non empty rows
+				$outputString=$outputString.$row."\n";
+			}
+		}
+		print $outputString;// DEBUG
+		// if the length of the sourcelocation variable is longer than
+		// the string source variable itself, a new setting is being
+		// saved and it needs to be updated
 		// readfile /etc/glue.cfg and input current values into below
 		// form so user can update and edit the file
 		$configFile=file("/usr/share/signage/menu.csv");
@@ -75,11 +82,10 @@
 			array_push($tempArray, $entry);
 		}
 		$configFile=$tempArray;
-	}
-	$row=0;
-	$column=0;
-	// begin building the html to be shown on the webpage
-	print "<form action='editMenu.php' method='post'><table>";
+		$row=0;
+		$column=0;
+		// begin building the html to be shown on the webpage
+		print "<form action='editMenu.php' method='post'><table>";
 		foreach($configFile as $entry){
 			print "<tr>\n";
 			if($entry[0] != "#"){
@@ -91,7 +97,7 @@
 				}
 				// fill in the remaining cells for if the user wants to
 				// add anything to that row
-				for($temp2=0;$temp2<(30-count($entry));$temp2++){
+				for($temp2=0;$temp2<=(30-count($entry));$temp2++){
 					print "\t<td><input name=\"".$row."_".$column."\" type=\"text\" value=\"\" /></td>\n";
 					$column++;
 				}
@@ -111,7 +117,7 @@
 		// build aditional input areas for user to add items
 		for($temp=0;$temp<20;$temp++){
 			print "<tr>\n";
-			for($temp2=0;$temp2<30;$temp2++){
+			for($temp2=0;$temp2<=30;$temp2++){
 				if ($column==0){
 					print"\t<td><select name='".$row."_".$column."'>\n";
 					foreach($datesArray as $dateItem){
