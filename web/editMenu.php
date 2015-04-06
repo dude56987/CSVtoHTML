@@ -39,31 +39,33 @@
 		// config file from the post data
 		// This needs put into a array to pull out error data
 		//foreach($_POST as $item){
-		print floor(count($_POST)/30)."<br>\n";// DEBUG
-		for($row=0;$row<floor(count($_POST)/30);$row++){
-			for($col=0;$col<=30;$col++){
-				// skip blank rows
-				if(empty($_POST[$row."_".$col])){
-					// empty post
-				}else{
-					$outputString=$outputString.$_POST[$row."_".$col].",";
+		if(count($_POST)!=0){
+			print floor(count($_POST)/30)."<br>\n";// DEBUG
+			for($row=0;$row<floor(count($_POST)/30);$row++){
+				for($col=0;$col<=30;$col++){
+					// skip blank rows
+					if(empty($_POST[$row."_".$col])){
+						// empty post
+					}else{
+						$outputString=$outputString.$_POST[$row."_".$col].",";
+					}
 				}
+				$outputString=$outputString."<br/>\n";
 			}
-			$outputString=$outputString."<br/>\n";
-		}
-		print $outputString;// DEBUG
-		// clean up the empty rows inside the data spreadsheet
-		$tempString=explode($outputString, "\n");
-		$outputString="";
-		foreach($tempString as $row){
-			$tempRow=explode($row, ",");
-			// if first user assigned variable is missing
-			// then the line is ignored
-			if(empty($tempRow[2])){
-				// do nothing			
-			}else{
-				// append non empty rows
-				$outputString=$outputString.$row."\n";
+			print $outputString;// DEBUG
+			// clean up the empty rows inside the data spreadsheet
+			$tempString=explode($outputString, "\n");
+			$outputString="";
+			foreach($tempString as $row){
+				$tempRow=explode($row, ",");
+				// if first user assigned variable is missing
+				// then the line is ignored
+				if(empty($tempRow[2])){
+					// do nothing			
+				}else{
+					// append non empty rows
+					$outputString=$outputString.$row."\n";
+				}
 			}
 		}
 		print $outputString;// DEBUG
