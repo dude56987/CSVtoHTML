@@ -30,6 +30,14 @@
 			 fwrite($myFileObject, $stringToWrite);
 			 fclose($myFileObject);
 		}
+		// create a array of dates for the dropdown
+		$datesArray= array();
+		for($temp=0;$temp<60;$temp++){
+			$dateVar = date_create('NOW');
+			date_modify($dateVar, '+'.$temp.' day');
+			$dateVar = date_format($dateVar, 'm/d/Y');
+			array_push($datesArray,$dateVar);
+		}
 		// THIS SECTION ONLY HANDLES ADDITIONS TO THE DATA
 		// Build the data from user submited changes
 		// Write new datafile to disk with changes
@@ -40,7 +48,7 @@
 		// This needs put into a array to pull out error data
 		//foreach($_POST as $item){
 		if(count($_POST)!=0){
-			print floor(count($_POST)/30)."<br>\n";// DEBUG
+			//print floor(count($_POST)/30)."<br>\n";// DEBUG
 			for($row=0;$row<floor(count($_POST)/30);$row++){
 				for($col=0;$col<=30;$col++){
 					// skip blank rows
@@ -52,7 +60,6 @@
 				}
 				$outputString=$outputString."<br/>\n";
 			}
-			print $outputString;// DEBUG
 			// clean up the empty rows inside the data spreadsheet
 			$tempString=explode($outputString, "\n");
 			$outputString="";
@@ -60,8 +67,9 @@
 				$tempRow=explode($row, ",");
 				// if first user assigned variable is missing
 				// then the line is ignored
-				if(empty($tempRow[2])){
-					// do nothing			
+				//if(empty($tempRow[2])){
+				if(count($tempRow)>=3){
+					// do nothing
 				}else{
 					// append non empty rows
 					$outputString=$outputString.$row."\n";
@@ -94,7 +102,18 @@
 				// split up lines based on '='
 				$entry = explode(',',$entry);
 				foreach($entry as $cell){
-					print "\t<td><input name=\"".$row."_".$column."\" type=\"text\" value=\"".$cell."\" /></td>\n";
+					if($column == 0){
+						print "\t<td>";
+						print"\t<select name='".$row."_".$column."'>\n";
+						print "<option value=\"".$cell."\" />".$cell."</option>\n";
+						foreach($datesArray as $dateItem){
+							print "\t\t<option value=\"".$dateItem."\">".$dateItem."</option>\n";
+						}
+						print "</select>";
+						print "</td>";
+					}else{
+						print "\t<td><input name=\"".$row."_".$column."\" type=\"text\" value=\"".$cell."\" /></td>\n";
+					}
 				$column++;
 				}
 				// fill in the remaining cells for if the user wants to
@@ -108,14 +127,6 @@
 			}
 			print "</tr>\n";
 		}
-		// create a array of dates for the dropdown
-		$datesArray= array();
-		for($temp=0;$temp<60;$temp++){
-			$dateVar = date_create('NOW');
-			date_modify($dateVar, '+'.$temp.' day');
-			$dateVar = date_format($dateVar, 'm/d/Y');
-			array_push($datesArray,$dateVar);
-		}
 		// build aditional input areas for user to add items
 		for($temp=0;$temp<20;$temp++){
 			print "<tr>\n";
@@ -126,7 +137,7 @@
 						print "\t\t<option value=\"".$dateItem."\">".$dateItem."</option>\n";
 					}
 					print"\t</select></td>\n";
-				} elseif ($column==1){
+				} elseif ($column == 1){
 					print "\t<td><input name='".$row."_".$column."' type='text' value='' /></td>\n";
 				} else{
 					print "\t<td><input name='".$row."_".$column."' type='text' value='' /></td>\n";
