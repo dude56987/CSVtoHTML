@@ -38,6 +38,12 @@
 			$dateVar = date_format($dateVar, 'm/d/Y');
 			array_push($datesArray,$dateVar);
 		}
+		$timesArray=array(
+			"BREAKFAST",
+			"LUNCH",
+			"DINNER",
+			"LATEMEAL"
+		);
 		// THIS SECTION ONLY HANDLES ADDITIONS TO THE DATA
 		// Build the data from user submited changes
 		// Write new datafile to disk with changes
@@ -50,32 +56,31 @@
 		if(count($_POST)!=0){
 			//print floor(count($_POST)/30)."<br>\n";// DEBUG
 			for($row=0;$row<floor(count($_POST)/30);$row++){
+				// create an array to store row items temporararly
+				$rowArray=array();
+				// go though all columns
 				for($col=0;$col<=30;$col++){
 					// skip blank rows
 					if(empty($_POST[$row."_".$col])){
 						// empty post
 					}else{
-						$outputString=$outputString.$_POST[$row."_".$col].",";
+						// append nonempty items to the array
+						array_push($rowArray,$_POST[$row."_".$col]);
 					}
+
 				}
-				$outputString=$outputString."<br/>\n";
-			}
-			// clean up the empty rows inside the data spreadsheet
-			$tempString=explode($outputString, "\n");
-			$outputString="";
-			foreach($tempString as $row){
-				$tempRow=explode($row, ",");
-				// if first user assigned variable is missing
-				// then the line is ignored
-				//if(empty($tempRow[2])){
-				if(count($tempRow)>=3){
-					// do nothing
-				}else{
-					// append non empty rows
-					$outputString=$outputString.$row."\n";
+				if (count($rowArray) >= 3){
+					// if the array is at least 3 in length write it out
+					foreach($rowArray as $item){
+						// write out each item on the row
+						$outputString=$outputString.$item.",";
+					}
+					// add a line ending
+					$outputString=$outputString."<br/>\n";
 				}
 			}
 		}
+		writeFile('/usr/share/signage/menu.csv',$outputString);
 		print $outputString;// DEBUG
 		// if the length of the sourcelocation variable is longer than
 		// the string source variable itself, a new setting is being
@@ -104,13 +109,23 @@
 				foreach($entry as $cell){
 					if($column == 0){
 						print "\t<td>";
-						print"\t<select name='".$row."_".$column."'>\n";
-						print "<option value=\"".$cell."\" />".$cell."</option>\n";
+						print"\t<select name='".$row."_".$column."' selected='selected' >\n";
+						print "\t<option value=\"".$cell."\" />".$cell."</option>\n";
 						foreach($datesArray as $dateItem){
 							print "\t\t<option value=\"".$dateItem."\">".$dateItem."</option>\n";
 						}
 						print "</select>";
 						print "</td>";
+					}elseif($column == 1){
+						print "\t<td>";
+						print"\t<select name='".$row."_".$column."'>\n";
+						print "<option value=\"".$cell."\" selected='selected' />".$cell."</option>\n";
+						foreach($timesArray as $timeItem){
+							print "\t\t<option value=\"".$timeItem."\">".$timeItem."</option>\n";
+						}
+						print "</select>";
+						print "</td>";
+
 					}else{
 						print "\t<td><input name=\"".$row."_".$column."\" type=\"text\" value=\"".$cell."\" /></td>\n";
 					}
@@ -138,7 +153,13 @@
 					}
 					print"\t</select></td>\n";
 				} elseif ($column == 1){
-					print "\t<td><input name='".$row."_".$column."' type='text' value='' /></td>\n";
+					print "\t<td>";
+					print"\t<select name='".$row."_".$column."'>\n";
+					foreach($timesArray as $timeItem){
+						print "\t\t<option value=\"".$timeItem."\">".$timeItem."</option>\n";
+					}
+					print "</select>";
+
 				} else{
 					print "\t<td><input name='".$row."_".$column."' type='text' value='' /></td>\n";
 				}
