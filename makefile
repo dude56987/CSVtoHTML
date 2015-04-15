@@ -84,6 +84,7 @@ install:
 	sudo touch /usr/share/signage/menu.csv
 	# allow php system to edit glue.cfg
 	sudo chmod 0777 /etc/glue.cfg
+	sudo chmod 0777 /usr/share/signage/menu.csv
 	# link the file to be in /usr/bin/ and make it executable
 	sudo chmod +x /usr/bin/glue
 	sudo chmod +x /etc/cron.hourly/glue
