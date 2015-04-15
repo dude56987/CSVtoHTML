@@ -10,6 +10,15 @@
 			width:3000px;
 		}
 	</style>
+	<script>
+	// clear a row of its values
+	function clearRow(rowNumber){
+		for(index=0;index<=30;index++){
+			document.getElementById(rowNumber+'_'+index).value = '';
+		}
+		return false;
+	}
+	</script>
 	</head>
 	<body>
 		<?PHP
@@ -44,44 +53,6 @@
 			"DINNER",
 			"LATEMEAL"
 		);
-		// THIS SECTION ONLY HANDLES ADDITIONS TO THE DATA
-		// Build the data from user submited changes
-		// Write new datafile to disk with changes
-		$outputString="";
-		// use foreach to account for however many rows the list has
-		// columns are static at 30 so we can use this to build the
-		// config file from the post data
-		// This needs put into a array to pull out error data
-		//foreach($_POST as $item){
-		if(count($_POST)!=0){
-			//print floor(count($_POST)/30)."<br>\n";// DEBUG
-			for($row=0;$row<floor(count($_POST)/30);$row++){
-				// create an array to store row items temporararly
-				$rowArray=array();
-				// go though all columns
-				for($col=0;$col<=30;$col++){
-					// skip blank rows
-					if(empty($_POST[$row."_".$col])){
-						// empty post
-					}else{
-						// append nonempty items to the array
-						array_push($rowArray,$_POST[$row."_".$col]);
-					}
-
-				}
-				if (count($rowArray) >= 3){
-					// if the array is at least 3 in length write it out
-					foreach($rowArray as $item){
-						// write out each item on the row
-						$outputString=$outputString.$item.",";
-					}
-					// add a line ending
-					$outputString=$outputString."<br/>\n";
-				}
-			}
-		}
-		writeFile('/usr/share/signage/menu.csv',$outputString);
-		print $outputString;// DEBUG
 		// if the length of the sourcelocation variable is longer than
 		// the string source variable itself, a new setting is being
 		// saved and it needs to be updated
@@ -100,16 +71,18 @@
 		$row=0;
 		$column=0;
 		// begin building the html to be shown on the webpage
-		print "<form action='editMenu.php' method='post'><table>";
+		print "<form action='editMenuSave.php' method='post'><table>";
 		foreach($configFile as $entry){
 			print "<tr>\n";
 			if($entry[0] != "#"){
 				// split up lines based on '='
 				$entry = explode(',',$entry);
+				// for each line add a delete button
+				print "<td><a href='#' onclick=\"return clearRow(".$row.")\" >Delete</a></td>";
 				foreach($entry as $cell){
 					if($column == 0){
 						print "\t<td>";
-						print"\t<select name='".$row."_".$column."' selected='selected' >\n";
+						print"\t<select id=\"".$row."_".$column."\"  name='".$row."_".$column."' selected='selected' >\n";
 						print "\t<option value=\"".$cell."\" />".$cell."</option>\n";
 						foreach($datesArray as $dateItem){
 							print "\t\t<option value=\"".$dateItem."\">".$dateItem."</option>\n";
@@ -118,7 +91,7 @@
 						print "</td>";
 					}elseif($column == 1){
 						print "\t<td>";
-						print"\t<select name='".$row."_".$column."'>\n";
+						print"\t<select id=\"".$row."_".$column."\"  name='".$row."_".$column."'>\n";
 						print "<option value=\"".$cell."\" selected='selected' />".$cell."</option>\n";
 						foreach($timesArray as $timeItem){
 							print "\t\t<option value=\"".$timeItem."\">".$timeItem."</option>\n";
@@ -127,7 +100,7 @@
 						print "</td>";
 
 					}else{
-						print "\t<td><input name=\"".$row."_".$column."\" type=\"text\" value=\"".$cell."\" /></td>\n";
+						print "\t<td><input id=\"".$row."_".$column."\" name=\"".$row."_".$column."\" type=\"text\" value=\"".$cell."\" /></td>\n";
 					}
 				$column++;
 				}
@@ -144,7 +117,8 @@
 		}
 		// build aditional input areas for user to add items
 		for($temp=0;$temp<20;$temp++){
-			print "<tr>\n";
+			print "<tr><td></td>\n";
+			
 			for($temp2=0;$temp2<=30;$temp2++){
 				if ($column==0){
 					print"\t<td><select name='".$row."_".$column."'>\n";
