@@ -21,6 +21,26 @@
 	</script>
 	</head>
 	<body>
+		<div>
+			<h1>Syntax Help</h1>
+			<ul>
+				<li>#Header = Add a # to the start of a line to make the
+					  text a header
+				</li>
+				<li>
+				# = put a # on a line by itself to draw 2 blank lines
+				</li>
+				<li>
+				#BACKGROUND=filename.png = Write #BACKGROUND= then 
+					    filename to use a custom background for
+					    a date and time
+				</li>
+				<li>
+				Any other text will be shown as a item on the list
+				</li>
+			</ul>
+		</div>
+		<hr />
 		<?PHP
 		print '';
 		// This webpage needs to be able to...
@@ -117,8 +137,8 @@
 		}
 		// build aditional input areas for user to add items
 		for($temp=0;$temp<20;$temp++){
-			print "<tr><td></td>\n";
-			
+			print "<tr>\n";
+			print "<td><a href='#' onclick=\"return clearRow(".$row.")\" >Delete</a></td>";
 			for($temp2=0;$temp2<=30;$temp2++){
 				if ($column==0){
 					print"\t<td><select name='".$row."_".$column."'>\n";
