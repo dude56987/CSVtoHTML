@@ -146,20 +146,25 @@ def main():
 		data = downloadFile(config_location)
 	else:
 		data = loadFile(config_location)
+	data = data.replace('\r\n','\n')
 	data = data.replace('\r','\n')
+	data = data.replace('\n\n','\n')
+	tempData=''
+	data=data.split('\n')
+	# remove leading zeros from each line
+	for item in data:
+		if len(item):
+			if item[0] == '0':
+				tempData+=item[1:]
+			else:
+				tempData+=item
+			tempData+='\n'
+	data=tempData
+	# print debug data of formated input menu
 	print ("#"*80)
 	print ("Printing menu data...")
 	print ("#"*80)
 	print data
-	tempData=''
-	data.split('\n')
-	for item in data:
-		if item[0] == '0':
-			tempData+=item[1:]
-		else:
-			tempData+=item
-		tempData+='\n'
-	data=tempData	
 	# year-month-day is returned so convert to month/day/year
 	todayDate = datetime.date.today().isoformat().split('-')
 	tempDayDate=todayDate[2]
