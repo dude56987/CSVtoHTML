@@ -9,7 +9,7 @@
 				margin-right: auto;
 			}
 			#preview{
-				width: 400px;
+				width: 600px;
 				float: left;
 			}
 			#preview p{
@@ -17,13 +17,13 @@
 			}
 			#inputPanel{
 				margin-top: 100px;
-				width: 400px;
+				width: 200px;
 				float: right;
 			}
 			#frame {
 				font-size: 8px;
-				width: 400px;
-				height: 500px;
+				width: 600px;
+				height: 800px;
 				border: 0;
 				/*
 			    -ms-transform: scale(0.25);
@@ -96,7 +96,7 @@
 		?>
 			<div id="preview">
 				<a href="../">
-				<p>Preview</p>
+				<p>Fullscreen Preview</p>
 				<iframe id="frame" src="../"></iframe>
 				</a>	
 			</div>
