@@ -6,7 +6,20 @@
 		input{
 			width:100%;
 		}	
+		button{
+			width:100%;
+		}
 	</style>
+	<script>
+	// prompt the user that they want to follow a link
+	function verifyLeave(dest){
+		// shows ok/cancel
+		if(confirm("If you leave this page any unsaved changes will be lost. Click OK if you would you like to leave?")){
+			window.location=dest;
+		}
+
+	}
+	</script>
 	</head>
 	<body>
 		<?PHP
@@ -56,8 +69,8 @@
 				}
 			}
 		}
-		print "<p><input type='submit' action='systemSettings.php' value='Save Changes' /></p></form>";
 		?>
-		<a href='main.php'>Return to Main Menu</a>
+		<p><button style="background-color:green;color:white;" type='submit'>Save Changes and Return to Main Menu</button></p></form>
+		<button style="background-color:darkred;color:white;" onclick="verifyLeave('main.php')">Discard Changes and Return to Main Menu</button>
 	</body>
 </html>
