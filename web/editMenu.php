@@ -18,6 +18,14 @@
 		}
 		return false;
 	}
+	// prompt the user that they want to follow a link
+	function verifyLeave(dest){
+		// shows ok/cancel
+		if(confirm("If you leave this page any unsaved changes will be lost. Click OK if you would you like to leave?")){
+			window.location=dest;
+		}
+
+	}
 	</script>
 	</head>
 	<body>
@@ -98,7 +106,7 @@
 				// split up lines based on '='
 				$entry = explode(',',$entry);
 				// for each line add a delete button
-				print "<td><a href='#' onclick=\"return clearRow(".$row.")\" >Delete</a></td>";
+				print "<td><button onclick=\"return clearRow(".$row.")\" >Delete</button></td>";
 				foreach($entry as $cell){
 					if($column == 0){
 						print "\t<td>";
@@ -127,7 +135,7 @@
 				// fill in the remaining cells for if the user wants to
 				// add anything to that row
 				for($temp2=0;$temp2<=(30-count($entry));$temp2++){
-					print "\t<td><input name=\"".$row."_".$column."\" type=\"text\" value=\"\" /></td>\n";
+					print "\t<td><input id=\"".$row."_".$column."\"  name=\"".$row."_".$column."\" type=\"text\" value=\"\" /></td>\n";
 					$column++;
 				}
 			$column=0;
@@ -136,26 +144,44 @@
 			print "</tr>\n";
 		}
 		// build aditional input areas for user to add items
+		$dateIncrement=0;
 		for($temp=0;$temp<20;$temp++){
 			print "<tr>\n";
-			print "<td><a href='#' onclick=\"return clearRow(".$row.")\" >Delete</a></td>";
+			print "<td><button onclick=\"return clearRow(".$row.")\" >Delete</button></td>";
 			for($temp2=0;$temp2<=30;$temp2++){
 				if ($column==0){
-					print"\t<td><select name='".$row."_".$column."'>\n";
+					print"\t<td><select id=\"".$row."_".$column."\" name='".$row."_".$column."'>\n";
+					// generate the date for the field
+					$dateVar = date_create('NOW');
+					date_modify($dateVar, '+'.$dateIncrement.' day');
+					$dateVar = date_format($dateVar, 'm/d/Y');
+					print "\t\t<option value=\"".$dateVar."\" selected='selected' >".$dateVar."</option>\n";
 					foreach($datesArray as $dateItem){
 						print "\t\t<option value=\"".$dateItem."\">".$dateItem."</option>\n";
 					}
 					print"\t</select></td>\n";
 				} elseif ($column == 1){
 					print "\t<td>";
-					print"\t<select name='".$row."_".$column."'>\n";
+					print"\t<select id=\"".$row."_".$column."\" name='".$row."_".$column."'>\n";
+					// show rows as breakfast,lunch,dinner,latemeal
+					if($row%4==0){
+						print "\t\t<option value=\"".$timesArray[0]."\">".$timesArray[0]."</option>\n";
+					}elseif($row%4==1){
+						print "\t\t<option value=\"".$timesArray[1]."\">".$timesArray[1]."</option>\n";
+					}elseif($row%4==2){
+						print "\t\t<option value=\"".$timesArray[2]."\">".$timesArray[2]."</option>\n";
+					}elseif($row%4==3){
+						print "\t\t<option value=\"".$timesArray[3]."\">".$timesArray[3]."</option>\n";
+						// increse date for next entry
+						$dateIncrement++;
+					}
 					foreach($timesArray as $timeItem){
 						print "\t\t<option value=\"".$timeItem."\">".$timeItem."</option>\n";
 					}
 					print "</select>";
 
 				} else{
-					print "\t<td><input name='".$row."_".$column."' type='text' value='' /></td>\n";
+					print "\t<td><input id=\"".$row."_".$column."\"  name=\"".$row."_".$column."\" type=\"text\" value=\"\" /></td>\n";
 				}
 				$column++;
 			}
@@ -163,8 +189,10 @@
 			$column=0;
 			$row++;
 		}
-		print "</table><p><input style='width:400px' type='submit' value='Save Changes' /></p></form>";
 		?>
-		<a href='main.php'>Return to Main Menu</a>
+		</table>
+		<button style='background-color:green;color:white;' type='submit' >Save Changes and Keep Editing</button> 
+		<button style="background-color:darkred;color:white;" onclick="verifyLeave('main.php');return false;">Discard Changes and Return to Main Menu</button>
+		</form>
 	</body>
 </html>
