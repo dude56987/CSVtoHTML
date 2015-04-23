@@ -107,13 +107,15 @@
 				<form action="editMenu.php">
 					<input type="submit" value="Edit Menu" />
 				</form>
-				<form action="editBackgrounds.php">
+				<!-- Item below is work in progress so menu item is hidden -->
+				<form style="display:none;" action="editBackgrounds.php">
 					<input type="submit" value="Edit Backgrounds" />
 				</form>
 				<form action="systemSettings.php">
 					<input type="submit" value="System Settings" />
 				</form>
-				<form action="help.php">
+				<!-- Item below is work in progress so menu item is hidden -->
+				<form style="display:none;" action="help.php">
 					<input type="submit" value="Help" />
 				</form>
 				<form action="../">
