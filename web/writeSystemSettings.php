@@ -41,6 +41,7 @@ if(count($_POST)){
 }
 ?>
 <script>
-	window.location="systemSettings.php";
+	// return to main menu after writing new settings
+	window.location="main.php";
 </script>
 <a href="systemSettings.php">Keep Going</a>
