@@ -9,6 +9,14 @@
 		html{
 			width:3000px;
 		}
+		.row1 input{
+			color: black;
+			background-color: white;
+		}
+		.row2 input{
+			color: black;
+			background-color: lightgray;
+		}
 	</style>
 	<script>
 	// clear a row of its values
@@ -98,10 +106,18 @@
 		$configFile=$tempArray;
 		$row=0;
 		$column=0;
+		$rowFlip=False;
 		// begin building the html to be shown on the webpage
 		print "<form action='editMenuSave.php' method='post'><table>";
 		foreach($configFile as $entry){
-			print "<tr>\n";
+			if($rowFlip==False){
+				// alternate colors on the rows to make it easier to read
+				print "<tr class='row1'>\n";
+				$rowFlip=True;
+			}else{
+				print "<tr class='row2'>\n";
+				$rowFlip=False;
+			}
 			if($entry[0] != "#"){
 				// split up lines based on '='
 				$entry = explode(',',$entry);
@@ -146,7 +162,14 @@
 		// build aditional input areas for user to add items
 		$dateIncrement=0;
 		for($temp=0;$temp<20;$temp++){
-			print "<tr>\n";
+			if($rowFlip==False){
+				// alternate colors on the rows to make it easier to read
+				print "<tr class='row1'>\n";
+				$rowFlip=True;
+			}else{
+				print "<tr class='row2'>\n";
+				$rowFlip=False;
+			}
 			print "<td><button onclick=\"return clearRow(".$row.")\" >Delete</button></td>";
 			for($temp2=0;$temp2<=30;$temp2++){
 				if ($column==0){
