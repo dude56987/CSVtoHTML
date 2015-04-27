@@ -52,7 +52,8 @@ install:
 	# create crontab entry, remove it if it already exists
 	sudo sed -i "s/\*\/3\ \*\ \*\ \*\ \*\ root\ glue\ \-c//g" /etc/crontab
 	sudo bash -c 'echo "*/3 * * * * root glue -c" >> /etc/crontab'
-	#sed -i "/^$/d" /etc/crontab;
+	# clean up empty lines in crontab
+	sudo bash -c "cat /etc/crontab | tr -s '\n' > /etc/crontab"
 	# create directories
 	sudo mkdir -p /usr/share/signage
 	sudo mkdir -p /usr/share/signage/default
@@ -118,11 +119,14 @@ test-install:
 uninstall:
 	# nuke out the files pushed in install
 	# echo everything in case user has changed locations
-	sudo rm /var/www/html/index.html || echo 'lol'
+	sudo rm -rvf /var/www/html/glue/ || echo 'lol'
 	sudo rm /etc/cron.hourly/glue || echo 'lol'
 	sudo rm /usr/bin/glue || echo 'lol'
 	sudo rm /etc/glue.cfg || echo 'lol'
-	sudo rm /usr/share/signage/style.css || echo 'lol'
+	sudo rm -rvf /usr/share/signage/ || echo 'lol'
+	# clean up cron entries
+	sudo sed -i "s/\*\/3\ \*\ \*\ \*\ \*\ root\ glue\ \-c//g" /etc/crontab
+	sudo bash -c "cat /etc/crontab | tr -s '\n' > /etc/crontab"
 push:
 	# nuke the zipfile if it already exists
 	rm glue.zip || echo 'already gone yo!'
