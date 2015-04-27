@@ -19,14 +19,17 @@ help:
 	#####################################################
 adduser:
 	# This will create a new user that can login to the admin directory
-	sudo bash -c "echo -n 'Username:';read username;htpasswd web/.htpasswd $username"
-	make install
+	# htpasswd uses -B to force stronger encryption
+	sudo bash adminScripts/makeNewUser.sh
+	sudo make install
 editusers:
+	# below is the current users
+	cat web/.htpasswd
 	# delete the line with the username you want removed
 	# press enter to open the users file
-	read lol
+	read none
 	sudo nano web/.htpasswd
-	make install
+	sudo make install
 view-output:
 	midori http://localhost/glue
 test:
