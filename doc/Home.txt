@@ -1,0 +1,21 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2015-09-01T13:47:17-04:00
+
+====== Home ======
+Created Tuesday 01 September 2015
+
+===== Overview =====
+
+CSVtoHTML is a software designed to be deployed on a Linux server. It requires python and php as well as apache to run correctly. The software was designed to take a .csv file and convert it to a web page. The csv file includes dates and times in order to allow you to show different content during different times of the day. The system is hard coded to a limit of 4 periods during the day. The main usage of the system is for lunch menus.
+
+===== Index =====
+* Basics
+	* [[+Installing_CSVtoHTML]]
+	* [[+Viewing_output]]
+	* [[+Administration_Interface]]
+Additional Information
+	* [[+README.md]]
+	* [[+CSV format]]
+
+

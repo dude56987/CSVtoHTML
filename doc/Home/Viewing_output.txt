@@ -1,0 +1,9 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2015-09-01T14:04:27-04:00
+
+====== Viewing output ======
+Created Tuesday 01 September 2015
+
+If the computer the software is installed on has a graphical desktop you can access it with the below link.
+http://localhost:80/glue/

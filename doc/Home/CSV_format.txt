@@ -1,0 +1,46 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2015-09-01T14:30:18-04:00
+
+====== CSV format ======
+Created Tuesday 01 September 2015
+
+In the first cell of each row identify the date you want the row used on.
+
+	The format is 1/1/1970 for January first 1970
+
+The second cell on a row must be the time identifier. Valid identifiers are as follows...
+
+* BREAKFAST
+* LUNCH
+* DINNER
+* LATEMEAL
+
+In the following cells you can add content. Content can be the following...
+
+* Items
+	* Items may be added by simply using text
+* Headers
+	* Use a # at the beginning of the frame, what follows will be a header
+* Blank Space
+	* Put a single # into the frame to add two blank lines
+
+The amount of content that can be added is unlimited. You may also add HTML and CSS inside items.
+
+==== Example File ====
+https://raw.githubusercontent.com/dude56987/CSVtoHTML/master/example.csv
+
+==== Example Entries ====
+1/21/2015,BREAKFAST,#HEADER EXAMPLE,Item example,Item example2,#,#,Blank Lines
+1/21/2015,LUNCH,#HEADER EXAMPLE,Item example,Item example2,#,#,Blank Lines
+1/21/2015,DINNER,#HEADER EXAMPLE,Item example,Item example2,#,#,Blank Lines
+1/21/2015,LATEMEAL,#HEADER EXAMPLE,Item example,Item example2,#,#,Blank Lines
+1/22/2015,BREAKFAST,#HEADER EXAMPLE,Item example,Item example2,#,#,Blank Lines
+1/22/2015,LUNCH,#HEADER EXAMPLE,Item example,Item example2,#,#,Blank Lines
+1/22/2015,DINNER,#HEADER EXAMPLE,Item example,Item example2,#,#,Blank Lines
+1/22/2015,LATEMEAL,#HEADER EXAMPLE,Item example,Item example2,#,#,Blank Lines
+1/24/2015,BREAKFAST,#HEADER EXAMPLE,Item example,Item example2,#,#,Blank Lines
+1/24/2015,LUNCH,#HEADER EXAMPLE,Item example,Item example2,#,#,Blank Lines
+1/24/2015,DINNER,#HEADER EXAMPLE,Item example,Item example2,#,#,Blank Lines
+1/24/2015,LATEMEAL,#HEADER EXAMPLE,Item example,Item example2,#,#,Blank Lines
+

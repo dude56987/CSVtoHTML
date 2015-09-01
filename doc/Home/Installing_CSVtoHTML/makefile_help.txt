@@ -1,0 +1,25 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2015-09-01T14:13:02-04:00
+
+====== makefile help ======
+Created Tuesday 01 September 2015
+
+#####################################################
+# Type "make install" to install the program        #
+# Type "make uninstall" to remove the program       #
+#####################################################
+# The below commands are for developers             #
+#####################################################
+# -Type "sudo make test" to install and run the     #
+#   program                                         #
+# -Type "make view-output" to view the generated    #
+#   webpage                                         #
+# -Type "sudo make test-install" to install without #
+#   setting up cron                                 #
+# -Type "sudo make push" to create a zip and push   #
+#   it to local apache server                       #
+# -Type "sudo make adduser" add a new user that can #
+#   login to the admin section of the site.         #
+# -Type "sudo make editusers" to delete users       #
+#####################################################

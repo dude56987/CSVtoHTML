@@ -1,0 +1,24 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2015-09-01T13:50:47-04:00
+
+====== Installing CSVtoHTML ======
+Created Tuesday 01 September 2015
+
+===== Download =====
+* You can go to the project webpage at https://github.com/dude56987/CSVtoHTML/
+	* On github you can download a zipfile on the right side of the webpage.
+	* Or you can use this direct link 
+		* https://github.com/dude56987/CSVtoHTML/archive/master.zip
+* If you have git installed on your system you can use the below command
+	* __git clone https://github.com/dude56987/CSVtoHTML/__
+
+===== Install =====
+1. You need to extract the zipfile if you downloaded the zipfile.
+2. Once you are in the project directory you will need to open a terminal at that location.
+3. Inside the terminal you can use the command __make__ to list the help. 
+	a. It will look like [[+makefile help|this]](click the link).
+4. You will need to type __sudo make full-install__ and hit enter for the first install. 
+	a. This will make the program check that all required packages exist to run the software
+	b. It will then run the __sudo make install__ command to install the software onto you system.
+5. That should install everything
