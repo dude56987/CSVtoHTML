@@ -50,11 +50,9 @@ full-install:
 	sudo glue
 install:
 	# create crontab entry, remove it if it already exists
-	echo "# run task every 15 minutes between hours 8 and 15" > /etc/cron.d/csvtohtml
+	echo "# run task every 15 minutes between hours 5(am) and 20(8pm)" > /etc/cron.d/csvtohtml
 	# run cron job between hours 8 and 15
-	echo "*/15 8-15 * * * root glue -c" >> /etc/cron.d/csvtohtml
-	# clean up empty lines in crontab
-	sudo bash -c "cat /etc/crontab | tr -s '\n' > /etc/crontab"
+	echo "*/15 5-20 * * * root glue -c" >> /etc/cron.d/csvtohtml
 	# create directories
 	sudo mkdir -p /usr/share/signage
 	sudo mkdir -p /usr/share/signage/default
