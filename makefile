@@ -50,8 +50,9 @@ full-install:
 	sudo glue
 install:
 	# create crontab entry, remove it if it already exists
-	sudo sed -i "s/\*\/3\ \*\ \*\ \*\ \*\ root\ glue\ \-c//g" /etc/crontab
-	sudo bash -c 'echo "*/3 * * * * root glue -c" >> /etc/crontab'
+	echo "# run task every 15 minutes between hours 8 and 15" > /etc/cron.d/csvtohtml
+	# run cron job between hours 8 and 15
+	echo "*/15 8-15 * * * root glue -c" >> /etc/cron.d/csvtohtml
 	# clean up empty lines in crontab
 	sudo bash -c "cat /etc/crontab | tr -s '\n' > /etc/crontab"
 	# create directories
