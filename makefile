@@ -50,9 +50,11 @@ full-install:
 	sudo glue
 install:
 	# create crontab entry, remove it if it already exists
-	echo "# run task every 15 minutes between hours 5(am) and 20(8pm)" > /etc/cron.d/csvtohtml
+	sudo bash -c 'echo "# run task every 15 minutes between hours 5(am) and 20(8pm)" > /etc/cron.d/csvtohtml'
 	# run cron job between hours 8 and 15
-	echo "*/15 5-20 * * * root glue -c" >> /etc/cron.d/csvtohtml
+	sudo bash -c 'echo "*/15 5-20 * * * root glue" >> /etc/cron.d/csvtohtml'
+	sudo bash -c 'echo "# check for glue web update interface flag every minute" >> /etc/cron.d/csvtohtml'
+	sudo bash -c 'echo "* * * * * root glue -c" >> /etc/cron.d/csvtohtml'
 	# create directories
 	sudo mkdir -p /usr/share/signage
 	sudo mkdir -p /usr/share/signage/default
@@ -76,7 +78,6 @@ install:
 	sudo cp -rvf backgrounds /var/www/html/glue/
 	# copy over the program
 	sudo cp -fv glue.py /usr/bin/glue
-	sudo link /usr/bin/glue /etc/cron.hourly/glue || echo 'file exists!'
 	# copy over the default css
 	sudo cp -fv style.css /usr/share/signage/default/style.css
 	sudo cp -fv head.html /usr/share/signage/default/head.html

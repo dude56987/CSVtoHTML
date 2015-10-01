@@ -42,7 +42,7 @@
 		</style>
 		    <script type="text/javascript">
 			// set minutes
-			var mins = 3;
+			var mins = 1;
 			// calculate the seconds (don't change this! unless time progresses at a different speed for you...)
 			var secs = mins * 60;
 			function countdown() {
