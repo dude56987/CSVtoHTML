@@ -14,7 +14,7 @@ CSVtoHTML is a software designed to be deployed on a Linux server. It requires p
 	* [[+Installing_CSVtoHTML]]
 	* [[+Viewing_output]]
 	* [[+Administration_Interface]]
-Additional Information
+* Additional Information
 	* [[+README.md]]
 	* [[+CSV format]]
 

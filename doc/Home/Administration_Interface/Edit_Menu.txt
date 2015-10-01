@@ -1,0 +1,12 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2015-09-01T15:16:08-04:00
+
+====== Edit Menu ======
+Created Tuesday 01 September 2015
+
+{{./Selection_003.png}}
+
+Each row is a entry in the menu system to be displayed at a given time.
+The delete button will blank the entire row.
+ 

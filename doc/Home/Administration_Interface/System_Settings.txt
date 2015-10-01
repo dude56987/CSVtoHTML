@@ -1,0 +1,22 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2015-09-01T15:23:18-04:00
+
+====== System Settings ======
+Created Tuesday 01 September 2015
+
+{{./Selection_004.png}}
+* Location
+	* This is where the csv file that will be rendered into a webpage is located.
+* Stylesheet Location
+	* This is where the css file is located that will be added to the generated webpage.
+* Output Location
+	* This is were the generated webpage will be created.
+* breakfastStartTime
+	* Hour to begin breakfast and end latemeal in military time.
+* lunchStartTime
+	* Hour to begin lunch and end breakfast in military time.
+* dinnerStartTime
+	* Hour to begin dinner and end lunch in military time.
+* lateMealStartTime
+	* Hour to begin latemeal and end dinner in military time.

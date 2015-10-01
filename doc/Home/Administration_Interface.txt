@@ -7,3 +7,13 @@ Created Tuesday 01 September 2015
 
 If the computer the software is installed on has a graphical desktop you can access it with the below link.
 http://localhost:80/glue/admin/
+
+Below is a screen shot of the main menu to the administration interface.
+
+{{./Selection_002.png}}
+
+* Fullscreen Preview takes you to the webpage where the output is served.
+* The update webpage button does
+* The [[+Edit_Menu]] button goes to a submenu where you can edit the CSV file in your browser.
+* The [[+System_Settings]] button goes to a submenu where you can edit system settings for CSVtoHTML.
+* Logout sends you to the fullscreen preview.
